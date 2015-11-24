@@ -43,7 +43,7 @@ public class Layer {
             } else {
                 objectStr = objectsStr.substring(0, separatorIndex);
             }
-            m_list.add(JSON.parse(objectStr));
+            m_list.add((GraphicsObject) JSON.parse(objectStr));
             if (separatorIndex == -1) {
                 objectsStr = "";
             } else {

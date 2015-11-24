@@ -71,7 +71,7 @@ public class Group extends GraphicsObject{
             } else {
                 groupStr = groupsStr.substring(0, separatorIndex);
             }
-            m_objectList.add(JSON.parseGroup(groupStr));
+            m_objectList.add((Group) JSON.parse(groupStr));
             if (separatorIndex == -1) {
                 groupsStr = "";
             } else {
@@ -116,7 +116,7 @@ public class Group extends GraphicsObject{
             } else {
                 objectStr = objectsStr.substring(0, separatorIndex);
             }
-            m_objectList.add(JSON.parse(objectStr));
+            m_objectList.add((GraphicsObject) JSON.parse(objectStr));
             if (separatorIndex == -1) {
                 objectsStr = "";
             } else {

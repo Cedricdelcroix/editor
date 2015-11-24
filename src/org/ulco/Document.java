@@ -69,7 +69,7 @@ public class Document {
             } else {
                 layerStr = layersStr.substring(0, separatorIndex);
             }
-            m_layers.add(JSON.parseLayer(layerStr));
+            m_layers.add((Layer) JSON.parse(layerStr));
             if (separatorIndex == -1) {
                 layersStr = "";
             } else {
