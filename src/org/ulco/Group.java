@@ -3,12 +3,12 @@ package org.ulco;
 import java.util.Vector;
 
 public class Group extends GraphicsObject{
+    protected int m_ID;
     private Vector<GraphicsObject> m_objectList;
-    private int m_ID;
 
     public Group() {
         m_objectList = new Vector<GraphicsObject>();
-        m_ID = ++ID.ID;
+        m_ID = ID.getInstance().generate();
     }
 
     public Group(String json) {
@@ -23,7 +23,6 @@ public class Group extends GraphicsObject{
     }
 
     public void add(Object object) {
-
             addObject((GraphicsObject)object);
     }
 
@@ -63,7 +62,7 @@ public class Group extends GraphicsObject{
 
     private void parseGroups(String groupsStr) {
         while (!groupsStr.isEmpty()) {
-            int separatorIndex = searchSeparator(groupsStr);
+            int separatorIndex = Utility.searchSeparator(groupsStr);
             String groupStr;
 
             if (separatorIndex == -1) {
@@ -80,35 +79,9 @@ public class Group extends GraphicsObject{
         }
     }
 
-    private int searchSeparator(String str) {
-        int index = 0;
-        int level = 0;
-        boolean found = false;
-
-        while (!found && index < str.length()) {
-            if (str.charAt(index) == '{') {
-                ++level;
-                ++index;
-            } else if (str.charAt(index) == '}') {
-                --level;
-                ++index;
-            } else if (str.charAt(index) == ',' && level == 0) {
-                found = true;
-            } else {
-                ++index;
-            }
-        }
-        if (found) {
-            return index;
-        } else {
-            return -1;
-        }
-    }
-
-
     private void parseObjects(String objectsStr) {
         while (!objectsStr.isEmpty()) {
-            int separatorIndex = searchSeparator(objectsStr);
+            int separatorIndex = Utility.searchSeparator(objectsStr);
             String objectStr;
 
             if (separatorIndex == -1) {

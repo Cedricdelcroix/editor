@@ -1,15 +1,16 @@
 package org.ulco;
 
 import java.util.Vector;
-
 public class Layer {
+    public Vector<GraphicsObject> m_list;
+    protected int m_ID;
     public Layer() {
-        m_list = new Vector<GraphicsObject>();
-        m_ID = ++ID.ID;
+        m_list = new Vector<>();
+        m_ID = ID.getInstance().generate();
     }
 
     public Layer(String json) {
-        m_list= new Vector<GraphicsObject>();
+        m_list= new Vector<>();
         String str = json.replaceAll("\\s+","");
         int objectsIndex = str.indexOf("objects");
         int endIndex = str.lastIndexOf("}");
@@ -35,7 +36,7 @@ public class Layer {
 
     private void parseObjects(String objectsStr) {
         while (!objectsStr.isEmpty()) {
-            int separatorIndex = searchSeparator(objectsStr);
+            int separatorIndex = Utility.searchSeparator(objectsStr);
             String objectStr;
 
             if (separatorIndex == -1) {
@@ -52,56 +53,5 @@ public class Layer {
         }
     }
 
-    private int searchSeparator(String str) {
-        int index = 0;
-        int level = 0;
-        boolean found = false;
 
-        while (!found && index < str.length()) {
-            if (str.charAt(index) == '{') {
-                ++level;
-                ++index;
-            } else if (str.charAt(index) == '}') {
-                --level;
-                ++index;
-            } else if (str.charAt(index) == ',' && level == 0) {
-                found = true;
-            } else {
-                ++index;
-            }
-        }
-        if (found) {
-            return index;
-        } else {
-            return -1;
-        }
-    }
-
-    public GraphicsObjects select(Point pt, double distance) {
-        GraphicsObjects list = new GraphicsObjects();
-
-        for (GraphicsObject object : m_list) {
-            if (object.isClosed(pt, distance)) {
-                list.add(object);
-            }
-        }
-        return list;
-    }
-
-    public String toJson() {
-        String str = "{ type: layer, objects : { ";
-
-        for (int i = 0; i < m_list.size(); ++i) {
-            GraphicsObject element = m_list.elementAt(i);
-
-            str += element.toJson();
-            if (i < m_list.size() - 1) {
-                str += ", ";
-            }
-        }
-        return str + " } }";
-    }
-
-    private Vector<GraphicsObject> m_list;
-    private int m_ID;
 }

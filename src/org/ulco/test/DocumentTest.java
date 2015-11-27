@@ -3,6 +3,8 @@ package org.ulco.test;
 import junit.framework.TestCase;
 import org.ulco.*;
 
+import javax.rmi.CORBA.Util;
+
 public class DocumentTest extends TestCase {
 
     public void testSelect() throws Exception {
@@ -12,8 +14,8 @@ public class DocumentTest extends TestCase {
 
         layer.add(c);
 
-        assertTrue(document.select(new Point(1,1), 8).size() == 1);
-        assertTrue(document.select(new Point(1,1), 8).firstElement().getID() == c.getID());
+        assertTrue(Utility.select(new Point(1,1), 8,document.m_layers).size() == 1);
+        assertTrue(Utility.select(new Point(1,1), 8,document.m_layers).firstElement().getID() == c.getID());
     }
 
     public void testSelect2() throws Exception {
@@ -25,7 +27,7 @@ public class DocumentTest extends TestCase {
         layer.add(c);
         layer.add(s);
 
-        assertTrue(document.select(new Point(1,1), 8).size() == 2);
+        assertTrue(Utility.select(new Point(1,1), 8,document.m_layers).size() == 2);
     }
 
     public void testJSON() throws Exception {
@@ -41,7 +43,7 @@ public class DocumentTest extends TestCase {
         l1.add(c1);
         l2.add(r);
         l2.add(c2);
-        assertEquals(document.toJson(), "{ type: document, layers: { { type: layer, objects : { { type: square, center: " +
+        assertEquals(Utility.toJson(document.m_layers), "{ type: document, layers: { { type: layer, objects : { { type: square, center: " +
                 "{ type: point, x: 0.0, y: 0.0 }, length: 5.0 }, { type: circle, center: { type: point, x: 5.0, y: 5.0 }" +
                 ", radius: 4.0 } } }, { type: layer, objects : { { type: rectangle, center: { type: point, x: -5.0, y: 1.0 }" +
                 ", height: 4.0, width: 2.0 }, { type: circle, center: { type: point, x: -4.0, y: 8.0 }, radius: 1.0 } } } } }");
@@ -60,7 +62,7 @@ public class DocumentTest extends TestCase {
         l1.add(c1);
         l2.add(r);
         l2.add(c2);
-        assertEquals(document.toJson(), "{ type: document, layers: { { type: layer, objects : { { type: square, center: " +
+        assertEquals(Utility.toJson(document.m_layers), "{ type: document, layers: { { type: layer, objects : { { type: square, center: " +
                 "{ type: point, x: 0.0, y: 0.0 }, length: 5.0 }, { type: circle, center: { type: point, x: 5.0, y: 5.0 }" +
                 ", radius: 4.0 } } }, { type: layer, objects : { { type: rectangle, center: { type: point, x: -5.0, y: 1.0 }" +
                 ", height: 4.0, width: 2.0 }, { type: circle, center: { type: point, x: -4.0, y: 8.0 }, radius: 1.0 } } } } }");

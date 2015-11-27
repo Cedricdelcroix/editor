@@ -3,10 +3,12 @@ package org.ulco.test;
 import junit.framework.TestCase;
 import org.ulco.*;
 
+import javax.rmi.CORBA.Util;
+
 public class LayerTest extends TestCase {
     public void testType() throws Exception {
         Document document = new Document();
-        int oldID = ID.ID;
+        int oldID = ID.getInstance().generate();
         Layer layer = document.createLayer();
 
         layer.add(new Square(new Point(2, 8), 10));
@@ -22,7 +24,7 @@ public class LayerTest extends TestCase {
 
         l.add(s);
         l.add(c);
-        assertEquals(l.toJson(), "{ type: layer, objects : { { type: square, center: { type: point, x: 0.0, y: 0.0 }, length: 5.0 }, " +
+        assertEquals(Utility.toJson(l), "{ type: layer, objects : { { type: square, center: { type: point, x: 0.0, y: 0.0 }, length: 5.0 }, " +
                 "{ type: circle, center: { type: point, x: 5.0, y: 5.0 }, radius: 4.0 } } }");
     }
 }
