@@ -79,7 +79,7 @@ public class Group extends GraphicsObject{
         }
     }
 
-    private void parseObjects(String objectsStr) {
+    protected void parseObjects(String objectsStr) {
         while (!objectsStr.isEmpty()) {
             int separatorIndex = Utility.searchSeparator(objectsStr);
             String objectStr;
